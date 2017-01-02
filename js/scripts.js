@@ -38,16 +38,16 @@ function placeRobot() {
 	});
 
 	// check if orientation given or already set
-	if (robot.orientation == "" && newOrientation == "") {
+	if (robot.orientation == "" && newOrientation.value == "") {
 		orientationValid = false;
 		alert("An orientation must be chosen for the robot to face, please fix.")
 	}
 	else if (!newOrientation == "") {
-		robot.orientation = newOrientation;
+		robot.orientation = newOrientation.value;
 	}
 
 	if (positionValid && orientationValid) {
-		setRobotLocation(newPosition.x, newPosition.y, newOrientation)
+		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value)
 	}
 
 	return false; // stop browser refresh
@@ -60,7 +60,7 @@ function validatePositionInput(keyName, key, posValue, curValue) {
 		alert(keyName + " must be numeric and between 0-4")
 		return false;
 	}
-										else if (curValue == "" && posValue == "") { // if it's not initialised at all
+	else if (curValue == "" && posValue == "") { // if it's not initialised at all
 		alert(keyName + " cannot be empty, please enter a number between 0-4");
 	 	return false;
 	}
