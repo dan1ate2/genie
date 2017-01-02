@@ -3,11 +3,10 @@ var robot = {
 	position:{x:"", y:""},
 	orientation:""
 };
+const MOVE_ONE_SQUARE = 100;
 
 // sets the robot position and orientation from 'place' button
 function placeRobot() {
-	// var x = document.getElementById("x-pos").value;
-	// var y = document.getElementById("y-pos").value;
 	var newPosition = {
 		x: document.getElementById("x-pos").value,
 		y: document.getElementById("y-pos").value
@@ -46,6 +45,7 @@ function placeRobot() {
 		robot.orientation = newOrientation.value;
 	}
 
+	// if position and orientation valid, update robot
 	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value)
 		moveRobotImage();
@@ -72,18 +72,27 @@ function validatePositionInput(keyName, key, posValue, curValue) {
 
 // update robot object with new x & y position, and orientation
 function setRobotLocation(newX, newY, newOrient) {
-	if (!newX == "") {
-		robot.position.x = newX;
-	}
-	if (!newY == "") {
-		robot.position.y = newY;
-	}
-	if (!newOrient == "") {
-		robot.orientation = newOrient;
-	}
+	if (!newX == "") robot.position.x = newX;
+	if (!newY == "") robot.position.y = newY;
+	if (!newOrient == "") robot.orientation = newOrient;
 }
 
 // move the robot image on table
 function moveRobotImage() {
+	const CENTERED_X = 20;
+	const CENTERED_Y = 10;
+	var oldNewPosition = {
+		currentX : document.getElementById("robot").x.baseVal.value,
+		currentY : document.getElementById("robot").y.baseVal.value,
+		newX : "",
+		newY : ""
+	}
+	var robotImage = document.getElementById("robot");
+	
+
+	// testing !!!!!!!!!!!!!!!!!!!!
+	robotImage.setAttribute('x', "120"); // set x with calculation from currentx and newx
+	robotImage.setAttribute('y', "210"); // set x with calculation from currentx and newx
+
 
 }
