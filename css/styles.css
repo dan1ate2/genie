@@ -1,0 +1,39 @@
+#gameContainer {
+	width: 500px;
+	margin: 10px auto;
+}
+
+/* game controls/buttons */
+button {
+	margin: 5px;
+	padding: 12px 20px;
+	border: none;
+    color: white;
+    background-color: #666666;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+button:hover {
+	cursor: pointer;
+	background-color: #424242;
+}
+button:disabled {
+	cursor: not-allowed;
+	color: grey;
+    background-color: #e7e7e7;
+}
+.gameButtonRed {
+	color: white;
+	background-color: #f44336;
+}
+.gameButtonBlue {
+	color: white;
+	background-color: #008CBA;
+}
+.gameButtonGreen {
+	color: white;
+	background-color: #4CAF50;
+}
