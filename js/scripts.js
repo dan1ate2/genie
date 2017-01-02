@@ -89,10 +89,16 @@ function moveRobotImage() {
 	}
 	var robotImage = document.getElementById("robot");
 	
+	// newX = 
 
 	// testing !!!!!!!!!!!!!!!!!!!!
 	robotImage.setAttribute('x', "120"); // set x with calculation from currentx and newx
 	robotImage.setAttribute('y', "210"); // set x with calculation from currentx and newx
 
 
+}
+
+// calculate square movements on the table (by difference)
+function calculateSqMovement(oldPos, newPos){
+  	return (oldPos > newPos)? oldPos-newPos : newPos-oldPos;
 }
