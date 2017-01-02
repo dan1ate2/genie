@@ -39,13 +39,13 @@
 		</svg>
 		
 		<!-- game commands -->
-		<form id="createRobot" onsubmit="initRobot()">
-			<label for="X_axis">X Axis (0 to 4)</label>
-			<input type="text" pattern="[0-9]" maxlength="1" name="X-axis"><br>
-			<label for="Y_axis">Y Axis (0 to 4)</label>
-			<input type="text" pattern="[0-9]" maxlength="1" name="Y-axis"><br>
+		<form id="createRobot" onsubmit="setRobotPosition()" method="post">
+			<label for="x-pos">X Axis (0 to 4)</label>
+			<input type="text" pattern="[0-4]" maxlength="1" name="x-pos" id="x-pos"><br>
+			<label for="y-pos">Y Axis (0 to 4)</label>
+			<input type="text" pattern="[0-4]" maxlength="1" name="y-pos" id="y-pos"><br>
 			<label for="orientation">Orientation</label>
-			<select name="orientation">
+			<select name="orientation" id="orientation">
 				<option disabled selected value>-- select orientation --</option>
 				<option value="north">North</option>
 				<option value="east">East</option>
