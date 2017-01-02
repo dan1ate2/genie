@@ -40,7 +40,18 @@
 		
 		<!-- game commands -->
 		<form id="createRobot" onsubmit="initRobot()">
-
+			<label for="X_axis">X Axis (0 to 4)</label>
+			<input type="text" pattern="[0-9]" maxlength="1" name="X-axis"><br>
+			<label for="Y_axis">Y Axis (0 to 4)</label>
+			<input type="text" pattern="[0-9]" maxlength="1" name="Y-axis"><br>
+			<label for="orientation">Orientation</label>
+			<select name="orientation">
+				<option disabled selected value>-- select orientation --</option>
+				<option value="north">North</option>
+				<option value="east">East</option>
+				<option value="south">South</option>
+				<option value="west">West</option>
+			</select><br>
 			<button type="reset" class="gameButtonRed">Reset</button>
 			<button type="submit" class="gameButtonBlue">Place</button>
 		</form>
