@@ -13,29 +13,28 @@ function placeRobot() {
 		y: document.getElementById("y-pos").value
 	}
 	var newOrientation = document.getElementById("orientation");
-	var positionValid = false; // flag
-	var orientationValid = false; // flag
+	var positionValid = true; // flag
+	var orientationValid = true; // flag
 
 	// place x and y in new position
 	Object.keys(newPosition).forEach(function (key) {
 		var tempKeyName;
 		
 		// check if x or y
-		do {
+		if(positionValid) {
 			switch(key) {
 				case "x": // validate x position
 					tempKeyName = "X Position";
-					positionValid = validatePositionInput(tempKeyName, key, newPosition.x);
+					positionValid = validatePositionInput(tempKeyName, key, newPosition.x, robot.position.x);
 					break;
 				case "y": // validate y position
 					tempKeyName = "Y Position";
-					positionValid = validatePositionInput(tempKeyName, key, newPosition.y);
+					positionValid = validatePositionInput(tempKeyName, key, newPosition.y, robot.position.y);
 					break;
 				default:
 					tempKeyName = ""; // avoids undefined error
 			}
 		}
-		while (positionValid)
 	});
 
 	// check if orientation given or already set
@@ -43,28 +42,25 @@ function placeRobot() {
 		orientationValid = false;
 		alert("An orientation must be chosen for the robot to face, please fix.")
 	}
-	else {
-		orientationValid = true;
+	else if (!newOrientation == "") {
+		robot.orientation = newOrientation;
 	}
 
 	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation)
 	}
 
-	// [debug]
-	// console.log(orientation.value);
-	// console.log(y);
-	// console.log(x);
+	return false; // stop browser refresh
 }
 
 // input validation for x or y position
-function validatePositionInput(keyName, key, posValue) {
+function validatePositionInput(keyName, key, posValue, curValue) {
 	// check for invalid or empty numbers
 	if (isNaN(posValue)) { // if it's not a number
 		alert(keyName + " must be numeric and between 0-4")
 		return false;
 	}
-										else if (robot.position.key == "" && posValue == "") { // if it's not initialised at all
+										else if (curValue == "" && posValue == "") { // if it's not initialised at all
 		alert(keyName + " cannot be empty, please enter a number between 0-4");
 	 	return false;
 	}
