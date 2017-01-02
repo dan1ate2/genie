@@ -42,12 +42,13 @@ function placeRobot() {
 		orientationValid = false;
 		alert("An orientation must be chosen for the robot to face, please fix.")
 	}
-	else if (!newOrientation == "") {
+	else if (!newOrientation.value == "") {
 		robot.orientation = newOrientation.value;
 	}
 
 	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value)
+		moveRobotImage();
 	}
 
 	return false; // stop browser refresh
@@ -80,4 +81,9 @@ function setRobotLocation(newX, newY, newOrient) {
 	if (!newOrient == "") {
 		robot.orientation = newOrient;
 	}
+}
+
+// move the robot image on table
+function moveRobotImage() {
+
 }
