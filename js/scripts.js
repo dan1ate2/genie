@@ -3,7 +3,6 @@ var robot = {
 	position:{x:"", y:""},
 	orientation:""
 };
-const MOVE_ONE_SQUARE = 100;
 
 // sets the robot position and orientation from 'place' button
 function placeRobot() {
@@ -18,9 +17,8 @@ function placeRobot() {
 	// validate x and y
 	Object.keys(newPosition).forEach(function (key) { // gets property key names (x or y)
 		var tempKeyName;
-		// check if x or y
 		if(positionValid) {
-			switch(key) {
+			switch(key) { // check if x or y
 				case "x": // validate x position
 					tempKeyName = "X Position";
 					positionValid = validatePositionInput(tempKeyName, key, newPosition.x, robot.position.x);
@@ -35,13 +33,13 @@ function placeRobot() {
 		}
 	});
 
-	// if positions valid, check if orientation valid
+	// if positions valid, validate orientation
 	if (positionValid) orientationValid = validateOrientation(newOrientation.value);
-	
-	// if position and orientation valid, update robot object and place image in square
+	 
+	// if position and orientation valid, place robot image in square & update robot object
 	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value);
-		moveRobotImage();
+		// moveRobotImage();
 	}
 
 	return false; // stop browser refresh
@@ -73,41 +71,49 @@ function validateOrientation(chosenOrientation) {
 		robot.orientation = chosenOrientation;
 		return true; // valid
 	}
+	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG
 }
 
-// update robot object with new x & y position, and orientation
+// move robot and update with new position & orientation
 function setRobotLocation(newX, newY, newOrient) {
+	// update robot object
 	if (!newX == "") robot.position.x = newX;
 	if (!newY == "") robot.position.y = newY;
 	if (!newOrient == "") robot.orientation = newOrient;
+
+	moveRobotImage(newX, newY); // move the robot image
 }
 
 // move the robot image on table
-function moveRobotImage() {
-	const CENTERED_X = 20;
-	const CENTERED_Y = 10;
+function moveRobotImage(x, y) {
 	var imagePos = {
-		currentAttrX : document.getElementById("robot").x.baseVal.value,
-		currentAttrY : document.getElementById("robot").y.baseVal.value,
-		newAttrX : "20",
-		newAttrY : "410"
+		newAttrX : "",
+		newAttrY : ""
 	}
 	
 	// calculate new position for robot image
-	// newAttrX = calcPixelAttributesXY(imagePos.currentAttrX, numSqMoveX);
-	// newAttrY = calcPixelAttributesXY(imagePos.currentAttrY, numSqMoveY);
+	imagePos.newAttrX = calcPixelAttributesXY(x, "x");
+	imagePos.newAttrY = calcPixelAttributesXY(y, "y");
 
 	// set robot image x and y attributes with new position
 	document.getElementById("robot").setAttribute('x', imagePos.newAttrX);
 	document.getElementById("robot").setAttribute('y', imagePos.newAttrY);
 }
 
-// calculate number of squares to move robot (x and y)
-function calcNumSquares(oldPos, newPos){
-  	return (oldPos > newPos)? oldPos-newPos : newPos-oldPos;
+// calculate x or y attribute (pixels) for robot image placement
+function calcPixelAttributesXY(newSqPos, XY) {
+	var newPixelAttr;
+	const CENTERED_X = 20;
+	const CENTERED_Y_FLIPPED = 410; // so bottom left corner is 0,0
+	const MOVE_ONE_SQUARE = 100;
+	
+	XY == "x" ? newPixelAttr = newSqPos * MOVE_ONE_SQUARE + CENTERED_X 
+		: newPixelAttr = CENTERED_Y_FLIPPED - (newSqPos * MOVE_ONE_SQUARE);
+
+	return newPixelAttr;
 }
 
-// calculate x or y attribute (pixels) for robot image placement
-function calcPixelAttributesXY(currentAttr, newSqPos) {
+// ** update robot orientation by either changing eye direction or adding arrow
+function updateOrientation() {
 
 }
