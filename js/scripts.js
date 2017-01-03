@@ -13,12 +13,11 @@ function placeRobot() {
 	}
 	var newOrientation = document.getElementById("orientation");
 	var positionValid = true; // flag
-	var orientationValid = true; // flag
+	var orientationValid; // flag
 
-	// place x and y in new position
-	Object.keys(newPosition).forEach(function (key) {
+	// validate x and y
+	Object.keys(newPosition).forEach(function (key) { // gets property key names (x or y)
 		var tempKeyName;
-		
 		// check if x or y
 		if(positionValid) {
 			switch(key) {
@@ -36,18 +35,12 @@ function placeRobot() {
 		}
 	});
 
-	// check if orientation given or already set
-	if (robot.orientation == "" && newOrientation.value == "") {
-		orientationValid = false;
-		alert("An orientation must be chosen for the robot to face, please fix.")
-	}
-	else if (!newOrientation.value == "") {
-		robot.orientation = newOrientation.value;
-	}
-
-	// if position and orientation valid, update robot
+	// if positions valid, check if orientation valid
+	if (positionValid) orientationValid = validateOrientation(newOrientation.value);
+	
+	// if position and orientation valid, update robot object and place in position
 	if (positionValid && orientationValid) {
-		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value)
+		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value);
 		moveRobotImage();
 	}
 
@@ -58,15 +51,27 @@ function placeRobot() {
 function validatePositionInput(keyName, key, posValue, curValue) {
 	// check for invalid or empty numbers
 	if (isNaN(posValue)) { // if it's not a number
-		alert(keyName + " must be numeric and between 0-4")
+		alert(keyName + " must be numeric and between 0-4");
 		return false;
 	}
-	else if (curValue == "" && posValue == "") { // if it's not initialised at all
+	else if (curValue == "" && posValue == "") { // only if it's not initialised at all
 		alert(keyName + " cannot be empty, please enter a number between 0-4");
 	 	return false;
 	}
-	else {
-		return true; // must be valid
+	else return true; // must be valid
+}
+
+// input validation for orientation
+function validateOrientation(chosenOrientation) {
+	// check if orientation given or already set
+	if (robot.orientation == "" && chosenOrientation == "") {
+		orientationValid = false;
+		alert("An orientation must be chosen for the robot to face, please fix.");
+		return false; // not valid
+	}
+	else if (!chosenOrientation == "") { 
+		robot.orientation = chosenOrientation;
+		return true; // valid
 	}
 }
 
@@ -98,7 +103,12 @@ function moveRobotImage() {
 
 }
 
-// calculate square movements on the table (by difference)
-function calculateSqMovement(oldPos, newPos){
+// calculate number of squares to move robot (x and y)
+function calcNumSquares(oldPos, newPos){
   	return (oldPos > newPos)? oldPos-newPos : newPos-oldPos;
+}
+
+// calculate x or y attribute (pixels) for robot image placement
+function calcPixelAttributesXY() {
+
 }
