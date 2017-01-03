@@ -67,25 +67,33 @@ function validateOrientation(chosenOrientation) {
 		alert("An orientation must be chosen for the robot to face, please fix.");
 		return false; // not valid
 	}
-	else if (!chosenOrientation == "") { 
+	else if (chosenOrientation != "") { 
 		robot.orientation = chosenOrientation;
 		return true; // valid
 	}
 	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG
 }
 
-// move robot and update with new position & orientation
+// move robot and update properties with new position & orientation
 function setRobotLocation(newX, newY, newOrient) {
-	// update robot object
-	if (!newX == "") robot.position.x = newX;
-	if (!newY == "") robot.position.y = newY;
-	if (!newOrient == "") robot.orientation = newOrient;
+	// update robot object position
+	if (newX != "" && newX != robot.position.x) robot.position.x = newX;
+	if (newY != "" && newY != robot.position.y) robot.position.y = newY;
+	setRobotImage(newX, newY); // move the robot image
+	setRobotOrientation(newOrient);
+}
 
-	moveRobotImage(newX, newY); // move the robot image
+// update robot object orientation property
+function setRobotOrientation(newOrient) {
+	// update robot object orientation
+	if (newOrient != "" && newOrient != robot.orientation) {
+		robot.orientation = newOrient;
+		updateEyeOrientation(newOrient);
+	}
 }
 
 // move the robot image on table
-function moveRobotImage(x, y) {
+function setRobotImage(x, y) {
 	var imagePos = {
 		newAttrX : "",
 		newAttrY : ""
@@ -113,7 +121,51 @@ function calcPixelAttributesXY(newSqPos, XY) {
 	return newPixelAttr;
 }
 
-// ** update robot orientation by either changing eye direction or adding arrow
-function updateOrientation() {
+// update robot orientation by moving eye direction
+function updateEyeOrientation(orient) {
+	var newOrientX;
+	var newOrientY;
+	
+	switch(orient) {
+		case "north":
+			// put north attributes here (x and y for circle/eye)
+			break;
+		case "east":
+			break;
+		case "south":
+			break;
+		case "west":
+			break;
+	}
 
+	// update circle attributes with new position
+	// document.getElementById("eye").setAttribute('x', newOrientX);
+	// document.getElementById("eye").setAttribute('y', newOrientY);
+}
+
+// move robot one square in direction of current orientation (move button)
+function moveRobot() {
+
+}
+
+// turn robot left or right from current orientation (left/right button)
+function turnRobot(turnDirection) {
+	var orientation = ["north", "east", "south", "west", "north"];
+	var newOrient;
+	var index = orientation.indexOf(robot.orientation);
+	
+	if (turnDirection == "left" && robot.orientation == "north") {
+		newOrient = "west";
+	}
+	else {
+		turnDirection == "left" ? newOrient = orientation[index - 1] 
+		: newOrient = orientation[index + 1];
+	}
+
+	setRobotOrientation(newOrient);
+}
+
+// report the current location of the robot
+function reportRobot() {
+	// return
 }
