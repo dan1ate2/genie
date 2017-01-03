@@ -121,6 +121,28 @@ function calcPixelAttributesXY(newSqPos, XY) {
 	return newPixelAttr;
 }
 
+// turn robot left or right from current orientation (left/right button)
+function turnRobot(turnDirection) {
+	var orientation = ["north", "east", "south", "west", "north"];
+	var newOrient;
+	var index = orientation.indexOf(robot.orientation);
+	
+	if (turnDirection == "left" && robot.orientation == "north") {
+		newOrient = "west";
+	}
+	else {
+		turnDirection == "left" ? newOrient = orientation[index - 1] 
+		: newOrient = orientation[index + 1];
+	}
+
+	setRobotOrientation(newOrient);
+}
+
+// report the current position of the robot
+function reportRobotPosition() {
+	alert("Robot position: "+robot.position.x+","+robot.position.y+","+robot.orientation.toUpperCase());
+}
+
 // update robot orientation by moving eye direction
 function updateEyeOrientation(orient) {
 	var newOrientX;
@@ -148,24 +170,7 @@ function moveRobot() {
 
 }
 
-// turn robot left or right from current orientation (left/right button)
-function turnRobot(turnDirection) {
-	var orientation = ["north", "east", "south", "west", "north"];
-	var newOrient;
-	var index = orientation.indexOf(robot.orientation);
-	
-	if (turnDirection == "left" && robot.orientation == "north") {
-		newOrient = "west";
-	}
-	else {
-		turnDirection == "left" ? newOrient = orientation[index - 1] 
-		: newOrient = orientation[index + 1];
-	}
+// * for testing inputs only
+function testInputs() {
 
-	setRobotOrientation(newOrient);
-}
-
-// report the current location of the robot
-function reportRobot() {
-	// return
 }
