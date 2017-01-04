@@ -70,14 +70,14 @@ function validateOrientation(chosenOrientation) {
 	else if (chosenOrientation != "") { 
 		return true; // valid
 	}
-	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG
+	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG (HAPPENS WITH RESET BUTTON)
 }
 
 // move robot and update properties with new x & y position & orientation
 function setRobotLocation(newX, newY, newOrient) {
-	if (newX != "" && newX != robot.position.x) robot.position.x = newX;
-	if (newY != "" && newY != robot.position.y) robot.position.y = newY;
-	setRobotImage(newX, newY);
+	if (newX != "" && newX != robot.position.x) robot.position.x = Number(newX);
+	if (newY != "" && newY != robot.position.y) robot.position.y = Number(newY);
+	setRobotImage();
 	setRobotOrientation(newOrient);
 }
 
@@ -88,15 +88,15 @@ function setRobotOrientation(newOrient) {
 }
 
 // move the robot image on table
-function setRobotImage(x, y) {
+function setRobotImage() {
 	var imagePos = {
 		newAttrX : "",
 		newAttrY : ""
 	}
 	
 	// calculate new position for robot image
-	imagePos.newAttrX = calcPixelAttributesXY(x, "x");
-	imagePos.newAttrY = calcPixelAttributesXY(y, "y");
+	imagePos.newAttrX = calcPixelAttributesXY(robot.position.x, "x");
+	imagePos.newAttrY = calcPixelAttributesXY(robot.position.y, "y");
 
 	// set robot image x and y attributes with new position
 	document.getElementById("robot").setAttribute('x', imagePos.newAttrX);
@@ -182,7 +182,47 @@ function updateEyeOrientation(orient) {
 
 // move robot one square in direction of current orientation (move button)
 function moveRobot() {
+	var squarePos;
+	
+		// determine movement direction and axis (x or y) & update robot
+		switch(robot.orientation) {
+		case "north":
+			squarePos = robot.position.y += 1;
+			if (validateMoveRobot(squarePos)) {
+				setRobotLocation("", squarePos, "");
+				updateEyeOrientation(robot.orientation);
+			}
+			break;
+		case "east":
+			squarePos = robot.position.x += 1;
+			if (validateMoveRobot(squarePos)) {
+				setRobotLocation(squarePos, "", "");
+				updateEyeOrientation(robot.orientation);
+			}
+			break;
+		case "south":
+			squarePos = robot.position.y -= 1;
+			if (validateMoveRobot(squarePos)) {
+				setRobotLocation("", squarePos, "");
+				updateEyeOrientation(robot.orientation);
+			}
+			break;
+		case "west":
+			squarePos = robot.position.x -= 1;
+			if (validateMoveRobot(squarePos)) {
+				setRobotLocation(squarePos, "", "");
+				updateEyeOrientation(robot.orientation);
+			}
+			break;
+		}
+}
 
+// validate robot movement (prevent robot falling off table)
+function validateMoveRobot(squarePosition) {
+	var lowestSquare = 0;
+	var highestSquare = 4;
+	return (squarePosition < lowestSquare || squarePosition > highestSquare) ? 
+		false : true;
 }
 
 // * for testing inputs only
