@@ -1,7 +1,8 @@
 // create the empty robot object
 var robot = {
 	position:{x:"", y:""},
-	orientation:""
+	orientation:"",
+	placed:false
 };
 const MOVE_ONE_SQUARE = 100;
 
@@ -37,9 +38,14 @@ function placeRobot() {
 	// if positions valid, validate orientation
 	if (positionValid) orientationValid = validateOrientation(newOrientation.value);
 	 
-	// if position and orientation valid, place robot image in square & update robot object
-	if (positionValid && orientationValid) 
+	// if position & orientation valid, place robot image & update robot object
+	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value);
+		if (robot.placed == false) {
+			showRobot(); // display the robot
+			displayCommands(); // initialise game commands
+		}
+	}
 
 	return false; // stop browser refresh
 }
@@ -71,6 +77,20 @@ function validateOrientation(chosenOrientation) {
 		return false; // not valid
 	}
 	else if (chosenOrientation != "") return true; // valid
+}
+
+// enable/show the game commands
+function displayCommands() {
+	document.getElementById("move-button").disabled = false;
+	document.getElementById("left-button").disabled = false;
+	document.getElementById("right-button").disabled = false;
+	document.getElementById("report-button").disabled = false;
+}
+
+// show robot image
+function showRobot() {
+	document.getElementById("wholeRobot").setAttribute("visibility", "visible");
+	robot.placed = true;
 }
 
 // move robot and update properties with new x & y position & orientation

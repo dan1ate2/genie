@@ -12,7 +12,7 @@
 <body>
 	<center>
 	<div id="gameContainer">
-		<svg height="500" width="500" xmlns="http://www.w3.org/2000/svg" 
+		<svg id="robotGame" height="500" width="500" xmlns="http://www.w3.org/2000/svg" 
 	     xmlns:xlink="http://www.w3.org/1999/xlink">
 	     	
 	     	<!-- table -->
@@ -31,7 +31,7 @@
 			<line x1="0" y1="400" x2="500" y2="400" style="stroke:rgb(204,204,204);stroke-width:2" />
 			
 			<!-- robot -->
-			<svg height="500" width="500">
+			<svg id="wholeRobot" height="500" width="500" visibility="hidden">
 				<image id="robot" xlink:href="./img/robot.png" x="20" y="10" height="80" width="60" />
 				<circle id="eye" cx="50" cy="25" r="2" stroke="black" stroke-width="2" fill="black" />
 			</svg>
@@ -55,10 +55,10 @@
 			<button type="submit" class="gameButtonBlue">Place</button>
 		</form>
 
-		<button type="button" class="gameButtonGreen" onclick="moveRobot()">Move</button>
-		<button type="button" class="gameButtonGreen" onclick="turnRobot('left')">Left</button>
-		<button type="button" class="gameButtonGreen" onclick="turnRobot('right')">Right</button>
-		<button type="button" class="gameButtonBlue" onclick="reportRobotPosition()">Report</button>
+		<button id="move-button" type="button" class="gameButtonGreen" onclick="moveRobot()" disabled>Move</button>
+		<button id="left-button" type="button" class="gameButtonGreen" onclick="turnRobot('left')" disabled>Left</button>
+		<button id="right-button" type="button" class="gameButtonGreen" onclick="turnRobot('right')" disabled>Right</button>
+		<button id="report-button" type="button" class="gameButtonBlue" onclick="reportRobotPosition()" disabled>Report</button>
 
 	</div>
 	</center>
