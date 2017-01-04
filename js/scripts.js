@@ -3,6 +3,7 @@ var robot = {
 	position:{x:"", y:""},
 	orientation:""
 };
+const MOVE_ONE_SQUARE = 100;
 
 // sets the robot position and orientation from 'place' button
 function placeRobot() {
@@ -39,7 +40,6 @@ function placeRobot() {
 	// if position and orientation valid, place robot image in square & update robot object
 	if (positionValid && orientationValid) {
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value);
-		// moveRobotImage();
 	}
 
 	return false; // stop browser refresh
@@ -68,28 +68,23 @@ function validateOrientation(chosenOrientation) {
 		return false; // not valid
 	}
 	else if (chosenOrientation != "") { 
-		robot.orientation = chosenOrientation;
 		return true; // valid
 	}
 	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG
 }
 
-// move robot and update properties with new position & orientation
+// move robot and update properties with new x & y position & orientation
 function setRobotLocation(newX, newY, newOrient) {
-	// update robot object position
 	if (newX != "" && newX != robot.position.x) robot.position.x = newX;
 	if (newY != "" && newY != robot.position.y) robot.position.y = newY;
-	setRobotImage(newX, newY); // move the robot image
+	setRobotImage(newX, newY);
 	setRobotOrientation(newOrient);
 }
 
 // update robot object orientation property
 function setRobotOrientation(newOrient) {
-	// update robot object orientation
-	if (newOrient != "" && newOrient != robot.orientation) {
-		robot.orientation = newOrient;
-		updateEyeOrientation(newOrient);
-	}
+	if (newOrient != "" && newOrient != robot.orientation) robot.orientation = newOrient;
+	if (newOrient != "") updateEyeOrientation(newOrient);
 }
 
 // move the robot image on table
@@ -112,8 +107,7 @@ function setRobotImage(x, y) {
 function calcPixelAttributesXY(newSqPos, XY) {
 	var newPixelAttr;
 	const CENTERED_X = 20;
-	const CENTERED_Y_FLIPPED = 410; // so bottom left corner is 0,0
-	const MOVE_ONE_SQUARE = 100;
+	const CENTERED_Y_FLIPPED = 410; // so bottom left corner is 0,0 (y)
 	
 	XY == "x" ? newPixelAttr = newSqPos * MOVE_ONE_SQUARE + CENTERED_X 
 		: newPixelAttr = CENTERED_Y_FLIPPED - (newSqPos * MOVE_ONE_SQUARE);
@@ -140,29 +134,54 @@ function turnRobot(turnDirection) {
 
 // report the current position of the robot
 function reportRobotPosition() {
-	alert("Robot position: "+robot.position.x+","+robot.position.y+","+robot.orientation.toUpperCase());
+	alert("Robot position: "+robot.position.x+","+robot.position.y+","
+		+robot.orientation.toUpperCase());
 }
 
 // update robot orientation by moving eye direction
 function updateEyeOrientation(orient) {
+	
+	// [DEBUG]
+	console.log("called updateEyeOrientation function");
+
 	var newOrientX;
 	var newOrientY;
+	var yPos = {
+		north:424,
+		east:430,
+		south:435,
+		west:430
+	};
 	
+	// x & y attributes/position for eye orientation
 	switch(orient) {
 		case "north":
-			// put north attributes here (x and y for circle/eye)
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 51;
+			newOrientY = yPos.north - MOVE_ONE_SQUARE * robot.position.y;
 			break;
 		case "east":
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 56;
+			newOrientY = yPos.east - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 		case "south":
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 51;
+			newOrientY = yPos.south - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 		case "west":
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 46;
+			newOrientY = yPos.west - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 	}
 
 	// update circle attributes with new position
-	// document.getElementById("eye").setAttribute('x', newOrientX);
-	// document.getElementById("eye").setAttribute('y', newOrientY);
+	document.getElementById("eye").setAttribute('cx', newOrientX);
+	document.getElementById("eye").setAttribute('cy', newOrientY);
+
+	// [DEBUG]
+	console.log("x= "+newOrientX+" y= "+newOrientY);
+	var actualX = document.getElementById("eye").getAttribute("cx");
+	var actualY = document.getElementById("eye").getAttribute("cy");
+	console.log("actual x= "+actualX+" actual y= "+actualY);
 }
 
 // move robot one square in direction of current orientation (move button)
@@ -174,3 +193,5 @@ function moveRobot() {
 function testInputs() {
 
 }
+
+// test for not falling off table
