@@ -95,8 +95,8 @@ function showRobot() {
 
 // move robot and update properties with new x & y position & orientation
 function setRobotLocation(newX, newY, newOrient) {
-	if (newX != "" && newX != robot.position.x) robot.position.x = Number(newX);
-	if (newY != "" && newY != robot.position.y) robot.position.y = Number(newY);
+	if (newX !== "" && newX != robot.position.x) robot.position.x = Number(newX);
+	if (newY !== "" && newY != robot.position.y) robot.position.y = Number(newY);
 	setRobotImage();
 	setRobotOrientation(newOrient);
 }
@@ -204,16 +204,16 @@ function moveRobot() {
 	// determine movement direction and axis (x or y) & update robot
 	switch(robot.orientation) {
 		case "north":
-			squarePos = robot.position.y += 1, axis = "y";
+			squarePos = robot.position.y + 1, axis = "y";
 			break;
 		case "east":
-			squarePos = robot.position.x += 1, axis = "x";
+			squarePos = robot.position.x + 1, axis = "x";
 			break;
 		case "south":
-			squarePos = robot.position.y -= 1, axis = "y";
+			squarePos = robot.position.y - 1, axis = "y";
 			break;
 		case "west":
-			squarePos = robot.position.x -= 1, axis = "x";
+			squarePos = robot.position.x - 1, axis = "x";
 			break;
 	}
 
