@@ -38,9 +38,8 @@ function placeRobot() {
 	if (positionValid) orientationValid = validateOrientation(newOrientation.value);
 	 
 	// if position and orientation valid, place robot image in square & update robot object
-	if (positionValid && orientationValid) {
+	if (positionValid && orientationValid) 
 		setRobotLocation(newPosition.x, newPosition.y, newOrientation.value);
-	}
 
 	return false; // stop browser refresh
 }
@@ -67,9 +66,8 @@ function validateOrientation(chosenOrientation) {
 		alert("An orientation must be chosen for the robot to face, please fix.");
 		return false; // not valid
 	}
-	else if (chosenOrientation != "") { 
-		return true; // valid
-	}
+	else if (chosenOrientation != "") return true; // valid
+
 	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG (HAPPENS WITH RESET BUTTON)
 }
 
@@ -121,13 +119,9 @@ function turnRobot(turnDirection) {
 	var newOrient;
 	var index = orientation.indexOf(robot.orientation);
 	
-	if (turnDirection == "left" && robot.orientation == "north") {
-		newOrient = "west";
-	}
-	else {
-		turnDirection == "left" ? newOrient = orientation[index - 1] 
+	if (turnDirection == "left" && robot.orientation == "north") newOrient = "west";
+	else turnDirection == "left" ? newOrient = orientation[index - 1] 
 		: newOrient = orientation[index + 1];
-	}
 
 	setRobotOrientation(newOrient);
 }
@@ -183,38 +177,36 @@ function updateEyeOrientation(orient) {
 // move robot one square in direction of current orientation (move button)
 function moveRobot() {
 	var squarePos;
+	var axis;
 	
-		// determine movement direction and axis (x or y) & update robot
-		switch(robot.orientation) {
+	// determine movement direction and axis (x or y) & update robot
+	switch(robot.orientation) {
 		case "north":
-			squarePos = robot.position.y += 1;
-			if (validateMoveRobot(squarePos)) {
-				setRobotLocation("", squarePos, "");
-				updateEyeOrientation(robot.orientation);
-			}
+			squarePos = robot.position.y += 1, axis = "y";
 			break;
 		case "east":
-			squarePos = robot.position.x += 1;
-			if (validateMoveRobot(squarePos)) {
-				setRobotLocation(squarePos, "", "");
-				updateEyeOrientation(robot.orientation);
-			}
+			squarePos = robot.position.x += 1, axis = "x";
 			break;
 		case "south":
-			squarePos = robot.position.y -= 1;
-			if (validateMoveRobot(squarePos)) {
-				setRobotLocation("", squarePos, "");
-				updateEyeOrientation(robot.orientation);
-			}
+			squarePos = robot.position.y -= 1, axis = "y";
 			break;
 		case "west":
-			squarePos = robot.position.x -= 1;
-			if (validateMoveRobot(squarePos)) {
-				setRobotLocation(squarePos, "", "");
-				updateEyeOrientation(robot.orientation);
-			}
+			squarePos = robot.position.x -= 1, axis = "x";
 			break;
+	}
+
+	// if valid square on table, update robot object and move
+	if (validateMoveRobot(squarePos)) {
+		switch(axis) {
+			case "x":
+				setRobotLocation(squarePos, "", "");
+				break;
+			case "y":
+				setRobotLocation("", squarePos, "");
+				break;
 		}
+		updateEyeOrientation(robot.orientation);
+	}
 }
 
 // validate robot movement (prevent robot falling off table)
