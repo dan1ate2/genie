@@ -22,11 +22,11 @@ function placeRobot() {
 			switch(key) { // check if x or y
 				case "x": // validate x position
 					tempKeyName = "X Position";
-					positionValid = validatePositionInput(tempKeyName, key, newPosition.x, robot.position.x);
+					positionValid = validatePositionInput(tempKeyName, newPosition.x, robot.position.x);
 					break;
 				case "y": // validate y position
 					tempKeyName = "Y Position";
-					positionValid = validatePositionInput(tempKeyName, key, newPosition.y, robot.position.y);
+					positionValid = validatePositionInput(tempKeyName, newPosition.y, robot.position.y);
 					break;
 				default:
 					tempKeyName = ""; // avoids undefined error
@@ -45,7 +45,7 @@ function placeRobot() {
 }
 
 // input validation for x or y position
-function validatePositionInput(keyName, key, posValue, curValue) {
+function validatePositionInput(keyName, posValue, curValue) {
 	// check for invalid or empty numbers
 	if (isNaN(posValue)) { // if it's not a number
 		alert(keyName + " must be numeric and between 0-4");
@@ -54,6 +54,10 @@ function validatePositionInput(keyName, key, posValue, curValue) {
 	else if (curValue == "" && posValue == "") { // only if it's not initialised at all
 		alert(keyName + " cannot be empty, please enter a number between 0-4");
 	 	return false;
+	}
+	else if (!validateMoveRobot(posValue)) { // not within range of squares
+		alert(keyName + " invalid, please enter a number between 0-4");
+		return false;
 	}
 	else return true; // must be valid
 }
@@ -67,8 +71,6 @@ function validateOrientation(chosenOrientation) {
 		return false; // not valid
 	}
 	else if (chosenOrientation != "") return true; // valid
-
-	// *** CHECK IF NEED TO ADD THIRD OPTION IF ORIENTATION EMPTY, MIGHT BE BUG (HAPPENS WITH RESET BUTTON)
 }
 
 // move robot and update properties with new x & y position & orientation
