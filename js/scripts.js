@@ -140,13 +140,15 @@ function reportRobotPosition() {
 
 // update robot orientation by moving eye direction
 function updateEyeOrientation(orient) {
-	
-	// [DEBUG]
-	console.log("called updateEyeOrientation function");
-
 	var newOrientX;
 	var newOrientY;
-	var yPos = {
+	var xEyePos = {
+		north:51,
+		east:56,
+		south:51,
+		west:46
+	}
+	var yEyePos = {
 		north:424,
 		east:430,
 		south:435,
@@ -156,32 +158,26 @@ function updateEyeOrientation(orient) {
 	// x & y attributes/position for eye orientation
 	switch(orient) {
 		case "north":
-			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 51;
-			newOrientY = yPos.north - MOVE_ONE_SQUARE * robot.position.y;
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + xEyePos.north;
+			newOrientY = yEyePos.north - MOVE_ONE_SQUARE * robot.position.y;
 			break;
 		case "east":
-			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 56;
-			newOrientY = yPos.east - (MOVE_ONE_SQUARE * robot.position.y);
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + xEyePos.east;
+			newOrientY = yEyePos.east - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 		case "south":
-			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 51;
-			newOrientY = yPos.south - (MOVE_ONE_SQUARE * robot.position.y);
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + xEyePos.south;
+			newOrientY = yEyePos.south - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 		case "west":
-			newOrientX = MOVE_ONE_SQUARE * robot.position.x + 46;
-			newOrientY = yPos.west - (MOVE_ONE_SQUARE * robot.position.y);
+			newOrientX = MOVE_ONE_SQUARE * robot.position.x + xEyePos.west;
+			newOrientY = yEyePos.west - (MOVE_ONE_SQUARE * robot.position.y);
 			break;
 	}
 
 	// update circle attributes with new position
 	document.getElementById("eye").setAttribute('cx', newOrientX);
 	document.getElementById("eye").setAttribute('cy', newOrientY);
-
-	// [DEBUG]
-	console.log("x= "+newOrientX+" y= "+newOrientY);
-	var actualX = document.getElementById("eye").getAttribute("cx");
-	var actualY = document.getElementById("eye").getAttribute("cy");
-	console.log("actual x= "+actualX+" actual y= "+actualY);
 }
 
 // move robot one square in direction of current orientation (move button)
