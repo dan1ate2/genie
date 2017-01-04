@@ -23,11 +23,11 @@ function placeRobot() {
 			switch(key) { // check if x or y
 				case "x": // validate x position
 					tempKeyName = "X Position";
-					positionValid = validatePositionInput(tempKeyName, newPosition.x, robot.position.x);
+					positionValid = validatePositionInput(tempKeyName, newPosition.x);
 					break;
 				case "y": // validate y position
 					tempKeyName = "Y Position";
-					positionValid = validatePositionInput(tempKeyName, newPosition.y, robot.position.y);
+					positionValid = validatePositionInput(tempKeyName, newPosition.y);
 					break;
 				default:
 					tempKeyName = ""; // avoids undefined error
@@ -51,13 +51,13 @@ function placeRobot() {
 }
 
 // input validation for x or y position
-function validatePositionInput(keyName, posValue, curValue) {
+function validatePositionInput(keyName, posValue) {
 	// check for invalid or empty numbers
 	if (isNaN(posValue)) { // if it's not a number
 		alert(keyName + " must be numeric and between 0-4");
 		return false;
 	}
-	else if (curValue == "" && posValue == "") { // only if it's not initialised at all
+	else if (posValue == "") { // if no input given
 		alert(keyName + " cannot be empty, please enter a number between 0-4");
 	 	return false;
 	}
@@ -71,7 +71,7 @@ function validatePositionInput(keyName, posValue, curValue) {
 // input validation for orientation
 function validateOrientation(chosenOrientation) {
 	// check if orientation given or already set
-	if (robot.orientation == "" && chosenOrientation == "") {
+	if (chosenOrientation == "") {
 		orientationValid = false;
 		alert("An orientation must be chosen for the robot to face, please fix.");
 		return false; // not valid
@@ -79,12 +79,12 @@ function validateOrientation(chosenOrientation) {
 	else if (chosenOrientation != "") return true; // valid
 }
 
-// enable/show the game commands
-function displayCommands() {
-	document.getElementById("move-button").disabled = false;
-	document.getElementById("left-button").disabled = false;
-	document.getElementById("right-button").disabled = false;
-	document.getElementById("report-button").disabled = false;
+// validate robot movement (prevent robot falling off table)
+function validateMoveRobot(squarePosition) {
+	var lowestSquare = 0;
+	var highestSquare = 4;
+	return (squarePosition < lowestSquare || squarePosition > highestSquare) ? 
+		false : true;
 }
 
 // show robot image
@@ -146,12 +146,43 @@ function turnRobot(turnDirection) {
 		: newOrient = orientation[index + 1];
 
 	setRobotOrientation(newOrient);
+	clearInputs();
 }
 
-// report the current position of the robot
-function reportRobotPosition() {
-	alert("Robot position: "+robot.position.x+","+robot.position.y+","
-		+robot.orientation.toUpperCase());
+// move robot one square in direction of current orientation (move button)
+function moveRobot() {
+	var squarePos;
+	var axis;
+	
+	// determine movement direction and axis (x or y) & update robot
+	switch(robot.orientation) {
+		case "north":
+			squarePos = robot.position.y + 1, axis = "y";
+			break;
+		case "east":
+			squarePos = robot.position.x + 1, axis = "x";
+			break;
+		case "south":
+			squarePos = robot.position.y - 1, axis = "y";
+			break;
+		case "west":
+			squarePos = robot.position.x - 1, axis = "x";
+			break;
+	}
+
+	// if valid square on table, update robot object and move
+	if (validateMoveRobot(squarePos)) {
+		switch(axis) {
+			case "x":
+				setRobotLocation(squarePos, "", "");
+				break;
+			case "y":
+				setRobotLocation("", squarePos, "");
+				break;
+		}
+		updateEyeOrientation(robot.orientation);
+		clearInputs();
+	}
 }
 
 // update robot orientation by moving eye direction
@@ -196,47 +227,24 @@ function updateEyeOrientation(orient) {
 	document.getElementById("eye").setAttribute('cy', newOrientY);
 }
 
-// move robot one square in direction of current orientation (move button)
-function moveRobot() {
-	var squarePos;
-	var axis;
-	
-	// determine movement direction and axis (x or y) & update robot
-	switch(robot.orientation) {
-		case "north":
-			squarePos = robot.position.y + 1, axis = "y";
-			break;
-		case "east":
-			squarePos = robot.position.x + 1, axis = "x";
-			break;
-		case "south":
-			squarePos = robot.position.y - 1, axis = "y";
-			break;
-		case "west":
-			squarePos = robot.position.x - 1, axis = "x";
-			break;
-	}
-
-	// if valid square on table, update robot object and move
-	if (validateMoveRobot(squarePos)) {
-		switch(axis) {
-			case "x":
-				setRobotLocation(squarePos, "", "");
-				break;
-			case "y":
-				setRobotLocation("", squarePos, "");
-				break;
-		}
-		updateEyeOrientation(robot.orientation);
-	}
+// report the current position of the robot
+function reportRobotPosition() {
+	alert("Robot position: "+robot.position.x+","+robot.position.y+","
+		+robot.orientation.toUpperCase());
 }
 
-// validate robot movement (prevent robot falling off table)
-function validateMoveRobot(squarePosition) {
-	var lowestSquare = 0;
-	var highestSquare = 4;
-	return (squarePosition < lowestSquare || squarePosition > highestSquare) ? 
-		false : true;
+// enable/show the game commands
+function displayCommands() {
+	document.getElementById("move-button").disabled = false;
+	document.getElementById("left-button").disabled = false;
+	document.getElementById("right-button").disabled = false;
+	document.getElementById("report-button").disabled = false;
+}
+
+// clear input fields
+function clearInputs() {
+	var inputs = document.getElementById("createRobot");
+	inputs.reset();
 }
 
 // * for testing inputs only
