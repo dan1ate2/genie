@@ -243,13 +243,54 @@ function displayCommands() {
 
 // clear input fields
 function clearInputs() {
-	var inputs = document.getElementById("createRobot");
+	var inputs = document.getElementById("placeRobot");
 	inputs.reset();
 }
 
-// * for testing inputs only
+// ** FOR TESTING INPUTS ONLY **
 function testInputs() {
+	var lines = document.getElementById('testData').value.toLowerCase();
+	var linesSplit = lines.split('\n');
 
+	// check if first line is valid place command
+	if (testValidPlace(linesSplit[0])) {
+		testPlaceCommand(linesSplit[0]);
+
+		// check each line and initiate game commands
+		for(var i = 1; i < linesSplit.length; i++){
+			switch (linesSplit[i]) {
+				case "move":
+					moveRobot();
+					break;
+				case "left":
+					turnRobot('left');
+					break;
+				case "right":
+					turnRobot('right');
+					break;
+				case "report":
+					reportRobotPosition();
+					break;
+				default: // must be place command or invalid
+					if (testValidPlace(linesSplit[i])) testPlaceCommand();
+					// if not valid place command, invalid command
+			}
+		}
+	}
+	return false;
 }
 
-// test for not falling off table
+// see if valid place command
+function testValidPlace(placeCommand) {
+	var flag = false;
+	var validPlace = /^place\s[0-3],[0-3](north|east|south|west)$/; // reg expression
+	flag = validPlace.test(placeCommand); // check against expected input format
+	console.log("valid place command = "+flag);
+	return flag;
+}
+
+// auto fill the form to test place command
+function testPlaceCommand(placeCommand) {
+	// put coordinates and orientation into form field and submit
+	// document.forms["testRobot"].submit();
+}

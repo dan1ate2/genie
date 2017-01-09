@@ -11,56 +11,77 @@
 
 <body>
 	<center>
-	<div id="gameContainer">
-		<svg id="robotGame" height="500" width="500" xmlns="http://www.w3.org/2000/svg" 
-	     xmlns:xlink="http://www.w3.org/1999/xlink">
-	     	
-	     	<!-- table -->
-			<rect width="500" height="500" style="fill:rgb(163,43,43);" />
-			
-			<!-- vertical lines -->
-			<line x1="100" y1="0" x2="100" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="200" y1="0" x2="200" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="300" y1="0" x2="300" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="400" y1="0" x2="400" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
-			
-			<!-- horizontal lines -->
-			<line x1="0" y1="100" x2="500" y2="100" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="0" y1="200" x2="500" y2="200" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="0" y1="300" x2="500" y2="300" style="stroke:rgb(204,204,204);stroke-width:2" />
-			<line x1="0" y1="400" x2="500" y2="400" style="stroke:rgb(204,204,204);stroke-width:2" />
-			
-			<!-- robot -->
-			<svg id="wholeRobot" height="500" width="500" visibility="hidden">
-				<image id="robot" xlink:href="./img/robot.png" x="20" y="10" height="80" width="60" />
-				<circle id="eye" cx="50" cy="25" r="2" stroke="black" stroke-width="2" fill="black" />
+		<h1>Toy Robot Game</h1>
+		<i>by Dan Hogan</i>
+		<div id="gameContainer">
+			<svg id="robotGame" height="500" width="500" xmlns="http://www.w3.org/2000/svg"
+		     xmlns:xlink="http://www.w3.org/1999/xlink">
+		     	
+		     	<!-- table -->
+				<rect width="500" height="500" style="fill:rgb(163,43,43);" />
+				
+				<!-- vertical lines -->
+				<line x1="100" y1="0" x2="100" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="200" y1="0" x2="200" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="300" y1="0" x2="300" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="400" y1="0" x2="400" y2="500" style="stroke:rgb(204,204,204);stroke-width:2" />
+				
+				<!-- horizontal lines -->
+				<line x1="0" y1="100" x2="500" y2="100" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="0" y1="200" x2="500" y2="200" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="0" y1="300" x2="500" y2="300" style="stroke:rgb(204,204,204);stroke-width:2" />
+				<line x1="0" y1="400" x2="500" y2="400" style="stroke:rgb(204,204,204);stroke-width:2" />
+				
+				<!-- robot -->
+				<svg id="wholeRobot" height="500" width="500" visibility="hidden">
+					<image id="robot" xlink:href="./img/robot.png" x="20" y="10" height="80" width="60" />
+					<circle id="eye" cx="50" cy="25" r="2" stroke="black" stroke-width="2" fill="black" />
+				</svg>
 			</svg>
-		</svg>
-		
-		<!-- game commands -->
-		<form id="createRobot" onsubmit="return placeRobot()" method="post">
-			<label for="x-pos">X Position (0 to 4)</label>
-			<input type="text" pattern="[0-4]" maxlength="1" name="x-pos" id="x-pos"><br>
-			<label for="y-pos">Y Position (0 to 4)</label>
-			<input type="text" pattern="[0-4]" maxlength="1" name="y-pos" id="y-pos"><br>
-			<label for="orientation">Orientation</label>
-			<select name="orientation" id="orientation">
-				<option disabled selected value="">-- select orientation --</option>
-				<option value="north">North</option>
-				<option value="east">East</option>
-				<option value="south">South</option>
-				<option value="west">West</option>
-			</select><br>
-			<button type="reset" class="gameButtonRed">Reset</button>
-			<button type="submit" class="gameButtonBlue">Place</button>
-		</form>
 
-		<button id="move-button" type="button" class="gameButtonGreen" onclick="moveRobot()" disabled>Move</button>
-		<button id="left-button" type="button" class="gameButtonGreen" onclick="turnRobot('left')" disabled>Left</button>
-		<button id="right-button" type="button" class="gameButtonGreen" onclick="turnRobot('right')" disabled>Right</button>
-		<button id="report-button" type="button" class="gameButtonBlue" onclick="reportRobotPosition()" disabled>Report</button>
+			<div id="gameControls">
+				<!-- game commands -->
+				<form id="placeRobot" onsubmit="return placeRobot()" method="post">
+					<h2>Game controls</h2>
+					<label for="x-pos">X Position (0 to 4)</label>
+					<input type="text" pattern="[0-4]" maxlength="1" name="x-pos" id="x-pos"><br>
+					<label for="y-pos">Y Position (0 to 4)</label>
+					<input type="text" pattern="[0-4]" maxlength="1" name="y-pos" id="y-pos"><br>
+					<label for="orientation">Orientation</label>
+					<select name="orientation" id="orientation">
+						<option disabled selected value="">-- select orientation --</option>
+						<option value="north">North</option>
+						<option value="east">East</option>
+						<option value="south">South</option>
+						<option value="west">West</option>
+					</select><br>
+					<button type="reset" class="gameButtonRed">Reset</button>
+					<button type="submit" class="gameButtonBlue">Place</button>
+				</form>
 
-	</div>
+				<button id="move-button" type="button" class="gameButtonGreen" onclick="moveRobot()" disabled>Move</button>
+				<button id="left-button" type="button" class="gameButtonGreen" onclick="turnRobot('left')" disabled>Left</button>
+				<button id="right-button" type="button" class="gameButtonGreen" onclick="turnRobot('right')" disabled>Right</button>
+				<button id="report-button" type="button" class="gameButtonBlue" onclick="reportRobotPosition()" disabled>Report</button>
+			</div>
+
+			<div id="gameTestInput">
+				<!-- testing purposes only -->
+				<form id="testRobot" onsubmit="return testInputs()" method="post">
+					<h2>Input testing</h2>
+					<p>Place your test input here, one command per line starting with place. Example format:<br>
+					<div class="green">PLACE 1,2,EAST</div><br>
+					<span style="font-size: 12px;"><i>(above place command has <b>one space</b> between 'place' and first number)</i></span><br>
+					<div class="green">MOVE</div><br>
+					<div class="green">LEFT</div><br>
+					<div class="green">RIGHT</div><br>
+					<div class="green">REPORT</div></p>
+					<textarea id="testData" rows="4" cols="50" placeholder="Put test data here"></textarea><br>
+					<button type="reset" class="gameButtonRed">Reset</button>
+					<button type="submit" class="gameButtonBlue">Test</button>
+				</form>
+			</div>
+		</div>
 	</center>
 
 	<script src="js/scripts.js"></script>
