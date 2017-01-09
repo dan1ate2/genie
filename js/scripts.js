@@ -1,3 +1,8 @@
+// Dan Hogan
+// Robot App
+// For Genie Junior Developer application
+// Last edited: 09/01/17
+
 // create the empty robot object
 var robot = {
 	position:{x:"", y:""},
