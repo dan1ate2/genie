@@ -247,7 +247,9 @@ function clearInputs() {
 	inputs.reset();
 }
 
-// ** FOR TESTING INPUTS ONLY **
+// ***** BELOW FUNCTIONS FOR TESTING INPUTS ONLY *****
+
+// pre filled test data
 window.onload = (function(){
 	document.getElementById("testData").value = 
 	"PLACE 0,0,NORTH\n"+
