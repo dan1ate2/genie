@@ -266,6 +266,7 @@ window.onload = (function(){
 	"REPORT";
 });
 
+// exercise the app with data inputs (must begin with place command)
 function testInputs() {
 	var lines = document.getElementById('testData').value.toLowerCase();
 	var linesSplit = lines.split('\n');
