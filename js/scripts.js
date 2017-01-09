@@ -248,54 +248,48 @@ function clearInputs() {
 }
 
 // ** FOR TESTING INPUTS ONLY **
+window.onload = (function(){
+	document.getElementById("testData").value = 
+	"PLACE 0,0,NORTH\n"+
+	"MOVE\n"+
+	"REPORT\n"+
+	"PLACE 0,0,NORTH\n"+
+	"LEFT\n"+
+	"REPORT\n"+
+	"PLACE 1,2,EAST\n"+
+	"MOVE\n"+
+	"MOVE\n"+
+	"LEFT\n"+
+	"MOVE\n"+
+	"REPORT";
+});
+
 function testInputs() {
 	var lines = document.getElementById('testData').value.toLowerCase();
 	var linesSplit = lines.split('\n');
 
-	// check if first line is valid place command
-	if (testValidPlace(linesSplit[0])) {
-		testPlaceCommand(linesSplit[0]);
+	testPlaceCommand(linesSplit[0]); // assumes first line is place command
 
-		// check each line and initiate game commands
-		for(var i = 1; i < linesSplit.length; i++){
-			switch (linesSplit[i]) {
-				case "move":
-					moveRobot();
-					break;
-				case "left":
-					turnRobot('left');
-					break;
-				case "right":
-					turnRobot('right');
-					break;
-				case "report":
-					reportRobotPosition();
-					break;
-				default: // must be place command or invalid
-					if (testValidPlace(linesSplit[i])) { // valid
-						testPlaceCommand();
-					}
-					else { // invalid
-						alert("Invalid test input: "+linesSplit[i]);
-						return; // break the surrounding for loop
-					}
-			}
+	// check each line and initiate game commands
+	for(var i = 1; i < linesSplit.length; i++){
+		switch (linesSplit[i]) {
+			case "move":
+				moveRobot();
+				break;
+			case "left":
+				turnRobot('left');
+				break;
+			case "right":
+				turnRobot('right');
+				break;
+			case "report":
+				reportRobotPosition();
+				break;
+			default: // must be place command, invalid or nothing
+				testPlaceCommand(linesSplit[i]);
 		}
 	}
-	else {
-		alert("A valid place command is required for the first line");
-		document.getElementById("testData").focus();
-	}
 	return false; // stop page refreshing
-}
-
-// see if valid place command
-function testValidPlace(placeCommand) {
-	var flag = false;
-	var validPlace = /^place\s[0-9],[0-9](north|east|south|west)$/; // reg expression
-	flag = validPlace.test(placeCommand); // check against expected input format
-	console.log("valid place command = "+flag);
-	return flag;
 }
 
 // auto fill the form to test place command
@@ -314,8 +308,8 @@ function testPlaceCommand(placeCommand) {
 	
 	// put orientation into form field
 	orient = placeCommand.match(/(north|east|south|west)/); // find orientation
-	if (orient[0] == null) orient = "";
+	if (orient == null || orient[0] == null) orient = "";
 	document.getElementById("orientation").value = orient[0];
 	
-	placeRobot();
+	placeRobot(); // exercise the app!
 }
