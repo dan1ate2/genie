@@ -47,7 +47,7 @@ function placeRobot() {
 		}
 	}
 
-	return false; // stop browser refresh
+	return false; // stop page refresh
 }
 
 // input validation for x or y position
@@ -272,18 +272,27 @@ function testInputs() {
 					reportRobotPosition();
 					break;
 				default: // must be place command or invalid
-					if (testValidPlace(linesSplit[i])) testPlaceCommand();
-					// if not valid place command, invalid command
+					if (testValidPlace(linesSplit[i])) { // valid
+						testPlaceCommand();
+					}
+					else { // invalid
+						alert("Invalid test input: "+linesSplit[i]);
+						return; // break the surrounding for loop
+					}
 			}
 		}
 	}
-	return false;
+	else {
+		alert("A valid place command is required for the first line");
+		document.getElementById("testData").focus();
+	}
+	return false; // stop page refreshing
 }
 
 // see if valid place command
 function testValidPlace(placeCommand) {
 	var flag = false;
-	var validPlace = /^place\s[0-3],[0-3](north|east|south|west)$/; // reg expression
+	var validPlace = /^place\s[0-9],[0-9](north|east|south|west)$/; // reg expression
 	flag = validPlace.test(placeCommand); // check against expected input format
 	console.log("valid place command = "+flag);
 	return flag;
@@ -291,6 +300,22 @@ function testValidPlace(placeCommand) {
 
 // auto fill the form to test place command
 function testPlaceCommand(placeCommand) {
-	// put coordinates and orientation into form field and submit
-	// document.forms["testRobot"].submit();
+	var x;
+	var y;
+	var orient;
+
+	// find x and y
+	x = placeCommand.toString()[6]; // 7th character
+	y = placeCommand.toString()[8]; // 9th character
+
+	// put coordinates into form field
+	document.getElementById("x-pos").value = x;
+	document.getElementById("y-pos").value = y;
+	
+	// put orientation into form field
+	orient = placeCommand.match(/(north|east|south|west)/); // find orientation
+	if (orient[0] == null) orient = "";
+	document.getElementById("orientation").value = orient[0];
+	
+	placeRobot();
 }
