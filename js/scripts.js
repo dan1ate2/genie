@@ -1,7 +1,8 @@
 // Dan Hogan
 // Robot App
 // For Genie Junior Developer application
-// Last edited: 09/01/17
+// Last edit for Genie: 09/01/17
+// Last modified: 15/01/17
 
 // create the empty robot object
 var robot = {
@@ -177,14 +178,8 @@ function moveRobot() {
 
 	// if valid square on table, update robot object and move
 	if (validateMoveRobot(squarePos)) {
-		switch(axis) {
-			case "x":
-				setRobotLocation(squarePos, "", "");
-				break;
-			case "y":
-				setRobotLocation("", squarePos, "");
-				break;
-		}
+		if (axis == "x") { setRobotLocation(squarePos, "", ""); }
+		else if (axis == "y") { setRobotLocation("", squarePos, ""); }
 		updateEyeOrientation(robot.orientation);
 		clearInputs();
 	}
